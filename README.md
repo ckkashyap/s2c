@@ -4,15 +4,26 @@ This is a translation of the [scheme compiler](https://gist.github.com/nyuichi/1
 
 ## Giving it a spin
 
-Create a test scheme file
+### Prerequisites
+1. [Python](https://www.python.org) version >= 3.6.5
+2. A 64bit C compiler. If you only have a 32bit C compiler then please edit runtime.c and change long long to int on line nuber 6 
+
+#### Create a test scheme file, test.scm, with the following content.
 ```scheme
 (+ 1 2)
 ```
-
+#### Compile test.scm
 ```bash
-
-
-
+python s2c.py test.scm > test.c
+```
+#### Compile the generated C
+```bash
+gcc test.c
+```
+#### Run the generated program
+```bash
+./a.out
+3
 ```
 
 ## Why would anyone do this?
