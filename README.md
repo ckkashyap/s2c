@@ -30,7 +30,7 @@ gcc test.c
 
 While Marc's "90 minutes scheme to C" is, in my opinion, simply brilliant and it's under 800 lines of code (and mind you, all lines are less than 80 chars long :)) - I found it hard to "get it". For example, I was a little stumped by define-type to start with. The videos and the presentation helped me understand "CPS conversion" and "Closure convesion" but when it came to code generation, it was not so clear.
 
-Another "problem" with Marc's implementation is that it is in scheme. What I mean is that, you need a scheme interpreter/compiler to run the compiler. If you are on Linux, this is not an issue but it become a problem if you are on other platforms. Since I have to spend a lot of my time on Windows, it becomes challenging to set up a scheme compiler that could compile Marc's implementation and also allow me to tweak it to gain understanding.
+Another "problem" with Marc's implementation is that it is in scheme. What I mean is that, you need a scheme interpreter/compiler to run the compiler. If you are on Linux, this is not an issue but it becomes a problem if you are on other platforms. Since I have to spend a lot of my time on Windows, it becomes challenging to set up a scheme compiler that can compile Marc's implementation and also allow me to tweak it to gain understanding.
 
 ## Why Python?
 
