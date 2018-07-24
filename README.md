@@ -1,12 +1,12 @@
 # s2c - A Scheme to C compiler
 
-This is a translation of the [scheme compiler](https://gist.github.com/nyuichi/1116686) by Marc Feeley (author of [gambit](http://gambitscheme.org/) into Python. More details about Marc's compiler can be found in this [presentation](http://churchturing.org/y/90-min-scc.pdf) and these videos [part1](https://www.youtube.com/watch?v=Bp89aBm9tGU) and [part2](https://www.youtube.com/watch?v=M4dwcdK5bxE). This is my attempt at trying to understand the implementation details. Perhaps the implementation being in Python (3.6.5) would make it accessible to more people.
+This is a translation of the [scheme compiler](https://gist.github.com/nyuichi/1116686) by Marc Feeley (author of [gambit](http://gambitscheme.org/) into Python. More details about Marc's compiler can be found in this [presentation](http://churchturing.org/y/90-min-scc.pdf) and these videos [part1](https://www.youtube.com/watch?v=Bp89aBm9tGU) and [part2](https://www.youtube.com/watch?v=M4dwcdK5bxE). This is my attempt at trying to understand the implementation details. Perhaps, a Python implementation will make it accessible to more people.
 
 ## Giving it a spin
 
 ### Prerequisites
 1. [Python](https://www.python.org) version >= 3.6.5
-2. A 64bit C compiler. If you only have a 32bit C compiler then please edit runtime.c and change long long to int on line nuber 6 
+2. A 64bit C compiler. If you only have a 32bit C compiler then please edit runtime.c and change long long to int on line number 6 
 
 #### Create a test scheme file, test.scm, with the following content.
 ```scheme
