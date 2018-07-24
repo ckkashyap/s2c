@@ -1,6 +1,5 @@
 from functools import reduce
 import ast as A
-import debug as D
 
 varNumber = 0
 
@@ -39,8 +38,6 @@ def unionMulti(ls):
     return reduce(union, ls)
  
 def fv(ast):
-    D.debugPrint('FV: {}'.format(ast))
-
     if A.isRef(ast):
         r = [A.refVar(ast)]
         return r
@@ -65,7 +62,6 @@ def posInList1(x, lst):
 
 def posInList(x, lst):
     r = posInList1(x, lst)
-    D.debugPrint('POS = {}'.format(r))
     return r
 
 

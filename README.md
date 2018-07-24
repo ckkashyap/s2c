@@ -23,7 +23,7 @@ gcc test.c
 #### Run the generated program
 ```bash
 ./a.out
-3
+result = 3
 ```
 
 ## Why would anyone do this?
