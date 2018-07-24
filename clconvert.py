@@ -1,5 +1,4 @@
 import ast as A
-import debug as D
 import parse as P
 import symbol as S
 

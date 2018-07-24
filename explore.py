@@ -2,7 +2,6 @@
 import clconvert
 import codegen
 import cpsconvert
-import debug
 import itertools
 import re
 import string2ast
