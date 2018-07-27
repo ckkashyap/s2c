@@ -1,4 +1,4 @@
-import ast as A
+from . import ast as A
 import re
 
 lineNumber = 0

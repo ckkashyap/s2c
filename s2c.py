@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-import clconvert
-import codegen
-import cpsconvert
+from compiler import clconvert
+from compiler import codegen
+from compiler import cpsconvert
 import re
-import string2ast
+from compiler import string2ast
 import sys
 
 def py2clj(s):

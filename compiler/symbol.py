@@ -1,5 +1,5 @@
 from functools import reduce
-import ast as A
+from . import ast as A
 
 varNumber = 0
 

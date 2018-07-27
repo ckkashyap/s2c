@@ -1,7 +1,7 @@
-import ast as A
-import parse as P
-import string2ast as S2A
-import symbol as S
+from . import ast as A
+from . import parse as P
+from . import string2ast as S2A
+from . import symbol as S
 
 def cpsConvert(ast):
 

@@ -1,8 +1,8 @@
-import ast as A
-import debug as D
-import parse as P
+from . import ast as A
+from . import debug as D
+from . import parse as P
 import re
-import symbol as S
+from . import symbol as S
 
 def py2clj(s):
     s1 = re.sub(r'\[', '(', s)
@@ -141,6 +141,9 @@ def makeInitialCte():
             A.makeMacro ('+', binOp('%+', 2)),
             A.makeMacro ('-', binOp('%-', 2)),
             A.makeMacro ('*', binOp('%*', 2)),
+            A.makeMacro ('add3', binOp('%+3', 3)),
+            A.makeMacro ('print-vector', binOp('%print-vec', 1)),
+            A.makeMacro ('new-vector', binOp('%new-vec', 1)),
             A.makeMacro ('display', binOp('%display', 1)),
             A.makeMacro ('set!', setFunc),
             A.makeMacro ('define', defFunc),
