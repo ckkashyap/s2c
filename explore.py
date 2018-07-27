@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-import clconvert
-import codegen
-import cpsconvert
+from compiler import clconvert
+from compiler import codegen
+from compiler import cpsconvert
+from compiler import debug
+from compiler import string2ast
+from compiler import symbol
 import itertools
 import re
-import string2ast
-import symbol
 
 def py2clj(s):
     s0 = str(s)

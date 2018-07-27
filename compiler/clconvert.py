@@ -1,6 +1,6 @@
-import ast as A
-import parse as P
-import symbol as S
+from . import ast as A
+from . import parse as P
+from . import symbol as S
 
 def cc(selfVar, freeVars, ast):
 

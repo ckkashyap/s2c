@@ -107,3 +107,4 @@ venv.bak/
 a.out
 *.c
 *.txt
+*.html

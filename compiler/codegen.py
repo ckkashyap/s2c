@@ -1,7 +1,7 @@
-import ast as A
-import parse as P
+from . import ast as A
+from . import parse as P
 import re
-import symbol as S
+from . import symbol as S
 
 def interval (n, m):
     return range (n, m + 1)
@@ -67,6 +67,12 @@ def cg(sv, ast):
             return [cgArgs(args, sv), " LT();"]
         if op == "%+":
             return [cgArgs(args, sv), " ADD();"]
+        if op == "%+3":
+            return [cgArgs(args, sv), " ADD3();"]
+        if op == "%new-vec":
+            return [cgArgs(args, sv), " NEWVEC();"]
+        if op == "%print-vec":
+            return [cgArgs(args, sv), " PRINTVEC();"]
         if op == "%-":
             return [cgArgs(args, sv), " SUB();"]
         if op == "%*":
@@ -145,7 +151,7 @@ def codeGenerate(ast):
 
     code = code2string(code)
 
-    with open("runtime.c") as f: rt = f.read()
+    with open("compiler/runtime/runtime.c") as f: rt = f.read()
     nrt = re.sub("//__SCHEME_CODE__", code, rt);
 
     return x + y + nrt
@@ -160,7 +166,7 @@ def codeGenerateDebug(ast):
 
     code = code2string(code)
 
-    with open("runtime.c") as f: rt = f.read()
+    with open("compiler/runtime/runtime.c") as f: rt = f.read()
     nrt = re.sub("//__SCHEME_CODE__", code, rt);
 
     return code

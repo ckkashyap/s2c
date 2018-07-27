@@ -1,8 +1,8 @@
-import ast as A
-import debug as D
-import parse as P
+from . import ast as A
+from . import debug as D
+from . import parse as P
 import re
-import symbol as S
+from . import symbol as S
 
 def py2clj(s):
     s1 = re.sub(r'\[', '(', s)
