@@ -114,7 +114,7 @@ def cpsConvert(ast):
 
     if S.lookup('call/cc', S.fv(ast)):
         l = A.makeLam([cpsAst], [S.newVar('_')])
-        x = S2A.parse(f'(set! call/cc (lambda (k f) (f k (lambda (_ result) (k result)))))')
+        x = S2A.parse('(set! call/cc (lambda (k f) (f k (lambda (_ result) (k result)))))')
         return A.makeApp([l, x])
     else:
         return cpsAst

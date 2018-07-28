@@ -67,7 +67,7 @@ def cc(selfVar, freeVars, ast):
                 [cc(selfVar, freeVars, x) for x in A.astSubx(ast)])
         return ret
 
-    print(f'Unknown AST in clconvert {ast}')
+    print('Unknown AST in clconvert {}'.format(ast))
     exit()
 
 def convert(ast, selfVar, freeVars):

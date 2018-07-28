@@ -1,6 +1,5 @@
 from . import ast as A
 from . import parse as P
-import re
 from . import symbol as S
 
 def interval (n, m):
@@ -109,10 +108,12 @@ def cg(sv, ast):
     print("Cannot handle this AST node")
     exit()
  
-def collapse(outList, codeList):
+def collapse(codeList):
     if codeList and isinstance(codeList, list):
         if len(codeList) > 0:
-            return collapse([], codeList[0]) + collapse([], codeList[1:])
+            p1 = collapse(codeList[0])
+            p2 = collapse(codeList[1:])
+            return p1 + p2
         else:
             print("This should not happen")
             exit()
@@ -124,7 +125,7 @@ def collapse(outList, codeList):
             return x
             
 def code2string(codeList):
-    return ''.join(collapse([], codeList))
+    return collapse(codeList)
 
  
 def codeGen(ast, sv):
@@ -152,7 +153,7 @@ def codeGenerate(ast):
     code = code2string(code)
 
     with open("compiler/runtime/runtime.c") as f: rt = f.read()
-    nrt = re.sub("//__SCHEME_CODE__", code, rt);
+    nrt = str.replace(rt, "//__SCHEME_CODE__", code);
 
     return x + y + nrt
 
@@ -167,6 +168,6 @@ def codeGenerateDebug(ast):
     code = code2string(code)
 
     with open("compiler/runtime/runtime.c") as f: rt = f.read()
-    nrt = re.sub("//__SCHEME_CODE__", code, rt);
+    nrt = str.replace(rt, "//__SCHEME_CODE__", code);
 
     return code

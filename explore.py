@@ -6,14 +6,12 @@ from compiler import debug
 from compiler import string2ast
 from compiler import symbol
 import itertools
-import re
 
 def py2clj(s):
-    s0 = str(s)
-    s1 = re.sub(r'\[', '(', s0)
-    s2 = re.sub(r']', ')', s1)
-    s3 = re.sub(r'\'', '', s2)
-    s4 = re.sub(r',', '', s3)
+    s1 = str.replace(str(s), '[', '(')
+    s2 = str.replace(s1, ']', ')')
+    s3 = str.replace(s2, '\'', '')
+    s4 = str.replace(s3, ',', '')
     return s4
 
 colorList = itertools.cycle(['red', 'green', 'blue', 'black', 'darkgreen', 'purple'])

@@ -1,14 +1,12 @@
 from . import ast as A
-from . import debug as D
 from . import parse as P
-import re
 from . import symbol as S
 
 def py2clj(s):
-    s1 = re.sub(r'\[', '(', s)
-    s2 = re.sub(r']', ')', s1)
-    s3 = re.sub(r'\'', '', s2)
-    s4 = re.sub(r',', '', s3)
+    s1 = str.replace(s, '[', '(')
+    s2 = str.replace(s1, ']', ')')
+    s3 = str.replace(s2, '\'', '')
+    s4 = str.replace(s3, ',', '')
     return s4
 
 def xe(e, cte):
@@ -54,7 +52,7 @@ def makeInitialCte():
             if len(e[1:]) == n:
                 return A.makePrim(xeExprs(e[1:], cte), op)
             else:
-                print(f'Expecting {n} args')
+                print('Expecting {} args'.format(n))
                 exit()
         return lambda x, y: m(x, y)
 
