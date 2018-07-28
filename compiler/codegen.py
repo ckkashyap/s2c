@@ -109,20 +109,24 @@ def cg(sv, ast):
     exit()
  
 def collapse(codeList):
-    if codeList and isinstance(codeList, list):
-        if len(codeList) > 0:
-            p1 = collapse(codeList[0])
-            p2 = collapse(codeList[1:])
-            return p1 + p2
+    stack = [codeList]
+    output=[]
+
+    while len(stack) > 0:
+        cl = stack.pop()
+        if cl and isinstance(cl, list):
+            if len(cl) > 0:
+                stack.append(cl[1:])
+                stack.append(cl[0])
+            else:
+                print("This should not happen")
+                exit()
         else:
-            print("This should not happen")
-            exit()
-    else:
-        x = str(codeList)
-        if x == "[]":
-            return '' 
-        else:
-            return x
+            x = str(cl)
+            if x != "[]":
+                output.append(x)
+
+    return str.join('', output)
             
 def code2string(codeList):
     return collapse(codeList)
