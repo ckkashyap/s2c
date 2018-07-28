@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./s2c.py > c.c
+gcc c.c
+./a.out

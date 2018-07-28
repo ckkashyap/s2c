@@ -146,7 +146,7 @@ def codeGenerate(ast):
     globalVars = S.fv(ast)
     addLambda(ast)
     code = compileAllLambdas()
-    x = "#define NB_GLOBALS " + str(len(globalVars)) + "\n"
+    x = "#define NB_GLOBALS 1 + " + str(len(globalVars)) + "/*+1 for MSVC*/\n"
     y = "#define MAX_STACK 100 \n\n"
 
     code = code2string(code)
