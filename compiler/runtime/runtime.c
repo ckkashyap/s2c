@@ -3,6 +3,9 @@
 
 #define HEAP_SIZE 1000000
 
+typedef unsigned char BYTE8;
+typedef unsigned short BYTE16;
+typedef unsigned int BYTE32;
 typedef long long obj;
 void *INPUT;
 
@@ -31,10 +34,18 @@ obj heap[HEAP_SIZE];
 #define LT() { obj y = POP(); TOS() = INT2OBJ(TOS() < y); }
 #define ADD() { obj y = POP(); TOS() = TOS() + y; }
 #define ADD3() { obj y = POP(); obj z = POP(); TOS() = TOS() + y + z; }
-#define NEWVEC() { long long s = OBJ2INT(TOS()); printf("Allocating %lld bytes\n", s); char *p = (char*)malloc(s); sprintf(p, "INPUT STRING %lld\n", s);printf("PTR %0X %s\n", p, p); TOS() = PTR2OBJ(p); }
-#define GETINPUTBUFFER() { TOS() = PTR2OBJ(INPUT); }
-#define PEEKBYTE() { obj y = OBJ2INT(POP()); void * ss = OBJ2PTR(TOS()); char *s = ss; TOS() = INT2OBJ(s[y]); }
-#define PRINTVEC() { long long ss = OBJ2PTR(TOS()); char * s = ss;printf("PTR = %0X\n", s);  printf("STRING =%s\n", s); TOS() = 2*1234; }
+
+#define NEWBUFFER() { long long size = OBJ2INT(TOS());  void *p = malloc(size); TOS() = PTR2OBJ(p); }
+#define PRINTBUFFER() { unsigned long long i; obj size = OBJ2INT(POP());  BYTE8 *p  = (BYTE8*)OBJ2PTR(TOS());  TOS() = INT2OBJ(size); for(i = 0; i < size; i++) printf("<%02x> ", p[i]); printf("\n");}
+#define GETINPUTBUFFER() { PUSH(PTR2OBJ(INPUT)); }
+#define PEEK8() { obj idx = OBJ2INT(POP()); BYTE8 *buf = (BYTE8*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
+#define PEEK16() { obj idx = OBJ2INT(POP()); BYTE16 *buf = (BYTE16*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
+#define PEEK32() { obj idx = OBJ2INT(POP()); BYTE32 *buf = (BYTE32*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
+
+#define POKE8() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE8 *buf = (BYTE8*)OBJ2PTR(TOS()); buf[idx] = (BYTE8)val; TOS() = INT2OBJ(val); }
+#define POKE16() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE16 *buf = (BYTE16*)OBJ2PTR(TOS()); buf[idx] = (BYTE16)val; TOS() = INT2OBJ(val); }
+#define POKE32() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE32 *buf = (BYTE32*)OBJ2PTR(TOS()); buf[idx] = (BYTE32)val; TOS() = INT2OBJ(val); }
+
 #define SUB() { obj y = POP(); TOS() = TOS() - y; }
 #define MUL() { obj y = POP(); TOS() = INT2OBJ(OBJ2INT(TOS()) * OBJ2INT(y)); }
 #define DISPLAY() printf ("%lld", OBJ2INT(TOS()))
@@ -64,6 +75,6 @@ obj execute (void *input)
 }
 
 #ifdef __STANDALONE_EXE__
-char *ptr="ABCD";
-int main () { printf ("result = %lld\n", OBJ2INT(execute (ptr))); return 0; }
+char ptr[4];
+int main () { ptr[0]='A'; ptr[1]='B'; ptr[2]='C'; ptr[3]='D';printf ("result = %lld\n", OBJ2INT(execute (ptr))); return 0; }
 #endif 

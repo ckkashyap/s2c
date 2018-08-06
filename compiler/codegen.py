@@ -68,14 +68,24 @@ def cg(sv, ast):
             return [cgArgs(args, sv), " ADD();"]
         if op == "%+3":
             return [cgArgs(args, sv), " ADD3();"]
-        if op == "%new-vec":
-            return [cgArgs(args, sv), " NEWVEC();"]
-        if op == "%print-vec":
-            return [cgArgs(args, sv), " PRINTVEC();"]
+        if op == "%new-buffer":
+            return [cgArgs(args, sv), " NEWBUFFER();"]
+        if op == "%print-buffer":
+            return [cgArgs(args, sv), " PRINTBUFFER();"]
         if op == "%get-input-buffer":
             return [cgArgs(args, sv), " GETINPUTBUFFER();"]
-        if op == "%peek-byte":
-            return [cgArgs(args, sv), " PEEKBYTE();"]
+        if op == "%peek8":
+            return [cgArgs(args, sv), " PEEK8();"]
+        if op == "%peek16":
+            return [cgArgs(args, sv), " PEEK16();"]
+        if op == "%peek32":
+            return [cgArgs(args, sv), " PEEK32();"]
+        if op == "%poke8":
+            return [cgArgs(args, sv), " POKE8();"]
+        if op == "%poke16":
+            return [cgArgs(args, sv), " POKE16();"]
+        if op == "%poke32":
+            return [cgArgs(args, sv), " POKE32();"]
         if op == "%-":
             return [cgArgs(args, sv), " SUB();"]
         if op == "%*":
