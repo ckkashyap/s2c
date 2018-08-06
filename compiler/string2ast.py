@@ -142,6 +142,8 @@ def makeInitialCte():
             A.makeMacro ('add3', binOp('%+3', 3)),
             A.makeMacro ('print-vector', binOp('%print-vec', 1)),
             A.makeMacro ('new-vector', binOp('%new-vec', 1)),
+            A.makeMacro ('get-input-buffer', binOp('%get-input-buffer', 1)),
+            A.makeMacro ('peek-byte', binOp('%peek-byte', 2)),
             A.makeMacro ('display', binOp('%display', 1)),
             A.makeMacro ('set!', setFunc),
             A.makeMacro ('define', defFunc),

@@ -72,6 +72,10 @@ def cg(sv, ast):
             return [cgArgs(args, sv), " NEWVEC();"]
         if op == "%print-vec":
             return [cgArgs(args, sv), " PRINTVEC();"]
+        if op == "%get-input-buffer":
+            return [cgArgs(args, sv), " GETINPUTBUFFER();"]
+        if op == "%peek-byte":
+            return [cgArgs(args, sv), " PEEKBYTE();"]
         if op == "%-":
             return [cgArgs(args, sv), " SUB();"]
         if op == "%*":

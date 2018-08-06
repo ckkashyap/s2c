@@ -4,6 +4,7 @@
 #define HEAP_SIZE 1000000
 
 typedef long long obj;
+void *INPUT;
 
 obj global[NB_GLOBALS];
 obj stack[MAX_STACK];
@@ -31,9 +32,11 @@ obj heap[HEAP_SIZE];
 #define ADD() { obj y = POP(); TOS() = TOS() + y; }
 #define ADD3() { obj y = POP(); obj z = POP(); TOS() = TOS() + y + z; }
 #define NEWVEC() { long long s = OBJ2INT(TOS()); printf("Allocating %lld bytes\n", s); char *p = (char*)malloc(s); sprintf(p, "INPUT STRING %lld\n", s);printf("PTR %0X %s\n", p, p); TOS() = PTR2OBJ(p); }
+#define GETINPUTBUFFER() { TOS() = PTR2OBJ(INPUT); }
+#define PEEKBYTE() { obj y = OBJ2INT(POP()); void * ss = OBJ2PTR(TOS()); char *s = ss; TOS() = INT2OBJ(s[y]); }
 #define PRINTVEC() { long long ss = OBJ2PTR(TOS()); char * s = ss;printf("PTR = %0X\n", s);  printf("STRING =%s\n", s); TOS() = 2*1234; }
 #define SUB() { obj y = POP(); TOS() = TOS() - y; }
-#define MUL() { obj y = POP(); TOS() = OBJ2INT(TOS()) * y; }
+#define MUL() { obj y = POP(); TOS() = INT2OBJ(OBJ2INT(TOS()) * OBJ2INT(y)); }
 #define DISPLAY() printf ("%lld", OBJ2INT(TOS()))
 #define HALT() break
 
@@ -46,11 +49,12 @@ obj heap[HEAP_SIZE];
 
 obj *gc (obj *sp) { exit (1); } /* no GC! */
 
-obj execute (void)
+obj execute (void *input)
 {
   int pc = 0;
   obj *sp = stack;
   obj *hp = &heap[HEAP_SIZE];
+  INPUT = input;
 
   jump: switch (pc) {
 
@@ -59,4 +63,7 @@ obj execute (void)
   return POP();
 }
 
-int main () { printf ("result = %lld\n", OBJ2INT(execute ())); return 0; }
+#ifdef __STANDALONE_EXE__
+char *ptr="ABCD";
+int main () { printf ("result = %lld\n", OBJ2INT(execute (ptr))); return 0; }
+#endif 
