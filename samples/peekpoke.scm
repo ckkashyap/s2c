@@ -1,5 +1,4 @@
 (define b (new-buffer 4))
-(define ib (get-input-buffer))
 
 (define v1
   (let (
@@ -28,6 +27,7 @@
     (if (= y 700000) 1 0)
     ))
 
+(define ib (get-input-buffer))
 (define v4
   (let (
         (x (peek8 ib 0))
@@ -35,7 +35,20 @@
         )
     (if (and (= x 65) (= y 66)) 1 0)))
 
+(define v5
+  (let (
+        (x (poke64 b 0 1099511627775))
+        (y (peek64 b 0))
+        )
 
-(define result (+ v1 (+ v2 (+ v3 v4))))
+    (if (= y 1099511627775) 1 0)
+    ))
 
-(if (= result 4) 100 0)
+
+(define b2 (new-buffer 8))
+(pokeptr b2 0 b2)
+(define v6 (if (eq-ptr b2 (peekptr b2 0)) 1 0))
+
+(define result (+ v1 (+ v2 (+ v3 (+ v4 (+ v5 v6))))))
+
+(if (= result 6) 100 0)

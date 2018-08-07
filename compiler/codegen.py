@@ -60,6 +60,8 @@ def cg(sv, ast):
     if A.isPrim(ast):
         args = A.astSubx(ast)
         op =A.primOp(ast)
+        if op == "%eq-ptr":
+            return [cgArgs(args, sv), " EQPTR();"]
         if op == "%=":
             return [cgArgs(args, sv), " EQ();"]
         if op == "%<":
@@ -80,12 +82,20 @@ def cg(sv, ast):
             return [cgArgs(args, sv), " PEEK16();"]
         if op == "%peek32":
             return [cgArgs(args, sv), " PEEK32();"]
+        if op == "%peek64":
+            return [cgArgs(args, sv), " PEEK64();"]
+        if op == "%peekptr":
+            return [cgArgs(args, sv), " PEEKPTR();"]
         if op == "%poke8":
             return [cgArgs(args, sv), " POKE8();"]
         if op == "%poke16":
             return [cgArgs(args, sv), " POKE16();"]
         if op == "%poke32":
             return [cgArgs(args, sv), " POKE32();"]
+        if op == "%poke64":
+            return [cgArgs(args, sv), " POKE64();"]
+        if op == "%pokeptr":
+            return [cgArgs(args, sv), " POKEPTR();"]
         if op == "%-":
             return [cgArgs(args, sv), " SUB();"]
         if op == "%*":

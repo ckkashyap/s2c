@@ -6,6 +6,7 @@
 typedef unsigned char BYTE8;
 typedef unsigned short BYTE16;
 typedef unsigned int BYTE32;
+typedef unsigned long long BYTE64;
 typedef long long obj;
 void *INPUT;
 
@@ -31,6 +32,7 @@ obj heap[HEAP_SIZE];
 #define POP() *--sp
 
 #define EQ() { obj y = POP(); TOS() = INT2OBJ(TOS() == y); }
+#define EQPTR() { obj* p = OBJ2PTR(POP()); TOS() = INT2OBJ(OBJ2PTR(TOS()) == p); }
 #define LT() { obj y = POP(); TOS() = INT2OBJ(TOS() < y); }
 #define ADD() { obj y = POP(); TOS() = TOS() + y; }
 #define ADD3() { obj y = POP(); obj z = POP(); TOS() = TOS() + y + z; }
@@ -41,10 +43,14 @@ obj heap[HEAP_SIZE];
 #define PEEK8() { obj idx = OBJ2INT(POP()); BYTE8 *buf = (BYTE8*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
 #define PEEK16() { obj idx = OBJ2INT(POP()); BYTE16 *buf = (BYTE16*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
 #define PEEK32() { obj idx = OBJ2INT(POP()); BYTE32 *buf = (BYTE32*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
+#define PEEK64() { obj idx = OBJ2INT(POP()); BYTE64 *buf = (BYTE64*)OBJ2PTR(TOS()); TOS() = INT2OBJ(buf[idx]); }
+#define PEEKPTR() { obj idx = OBJ2INT(POP()); obj *buf = (obj*)OBJ2PTR(TOS()); TOS() = PTR2OBJ(buf[idx]); }
 
 #define POKE8() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE8 *buf = (BYTE8*)OBJ2PTR(TOS()); buf[idx] = (BYTE8)val; TOS() = INT2OBJ(val); }
 #define POKE16() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE16 *buf = (BYTE16*)OBJ2PTR(TOS()); buf[idx] = (BYTE16)val; TOS() = INT2OBJ(val); }
 #define POKE32() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE32 *buf = (BYTE32*)OBJ2PTR(TOS()); buf[idx] = (BYTE32)val; TOS() = INT2OBJ(val); }
+#define POKE64() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE64 *buf = (BYTE64*)OBJ2PTR(TOS()); buf[idx] = (BYTE64)val; TOS() = INT2OBJ(val); }
+#define POKEPTR() { obj *val = OBJ2PTR(POP()); obj idx = OBJ2INT(POP()); obj *buf = OBJ2PTR(TOS()); buf[idx] = (obj)val; TOS() = PTR2OBJ(val); }
 
 #define SUB() { obj y = POP(); TOS() = TOS() - y; }
 #define MUL() { obj y = POP(); TOS() = INT2OBJ(OBJ2INT(TOS()) * OBJ2INT(y)); }
