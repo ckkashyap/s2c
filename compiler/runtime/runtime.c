@@ -14,11 +14,11 @@ obj global[NB_GLOBALS];
 obj stack[MAX_STACK];
 obj heap[HEAP_SIZE];
 
-#define INT2OBJ(n) ((n) << 1)
-#define OBJ2INT(o) ((o) >> 1)
+#define INT2OBJ(n) n
+#define OBJ2INT(o) o
 
-#define PTR2OBJ(p) ((obj)(p) + 1)
-#define OBJ2PTR(o) ((obj*)((o) - 1))
+#define PTR2OBJ(p) ((obj)p)
+#define OBJ2PTR(o) ((obj*)o)
 
 #define FALSEOBJ INT2OBJ(0)
 #define TRUEOBJ INT2OBJ(1)
