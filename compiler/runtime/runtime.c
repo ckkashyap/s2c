@@ -66,6 +66,11 @@ obj heap[HEAP_SIZE];
 
 obj *gc (obj *sp) { exit (1); } /* no GC! */
 
+#ifndef __STANDALONE_EXE__
+#ifdef _OS_IS_WINDOWS_
+__declspec(dllexport)
+#endif
+#endif
 obj execute (void *input)
 {
   int pc = 0;
