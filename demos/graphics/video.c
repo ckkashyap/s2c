@@ -4,7 +4,6 @@
 #define SCREEN_SIZE 800
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-#define LIBRARY "render.dylib"
 
 typedef struct
 {
@@ -17,7 +16,14 @@ typedef int (*RENDERER_TYPE)(INTEROP*);
 
 RENDERER_TYPE RENDERER;
 
+#ifdef _OS_IS_WINDOWS_
+#define LIBRARY "render.dll"
+#include "windows/loader.c"
+#undef main
+#else
+#define LIBRARY "render.dylib"
 #include "posix/loader.c"
+#endif
 
 int main(int argc, char* args[])
 {
@@ -44,6 +50,7 @@ int main(int argc, char* args[])
         return 1;
     }
 
+
     surface = SDL_GetWindowSurface(window);
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0xFF, 0x00, 0x00, 0x00));
     INTEROP interop;
@@ -52,6 +59,7 @@ int main(int argc, char* args[])
     interop.height = SCREEN_SIZE;
     
     RENDERER = loadRenderer(LIBRARY);
+        fprintf(stderr, "AB123D %p\n", RENDERER);
 
     while(RENDERER(&interop))
     {
