@@ -16,6 +16,7 @@ RENDERER_TYPE loadRenderer(char *library)
         if (DL_LOADER_HANDLE != NULL)
         {
             FreeLibrary(DL_LOADER_HANDLE);
+            CopyFile("_render.dll", "render.dll", 0);
         }
 
         printf("Loading %s\n", library);

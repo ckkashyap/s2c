@@ -13,12 +13,12 @@
 (define setzeroall
   (lambda (n)
     (if (= n  0)
-        (poke16 buffer n 0)
+        (poke8 buffer n 0)
       (let ((x 0))
-        (poke8 buffer n 255)
+        (poke8 buffer n 0)
         (setzeroall (- n 1))))))
 
 
-(setzeroall (* 3 (* width height)))
+(setzeroall (- (* 4 (* width height)) 1))
 
 1

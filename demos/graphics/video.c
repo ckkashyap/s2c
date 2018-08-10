@@ -25,6 +25,27 @@ RENDERER_TYPE RENDERER;
 #include "posix/loader.c"
 #endif
 
+Uint32 my_callbackfunc(Uint32 interval, void *param)
+{
+    SDL_Event event;
+    SDL_UserEvent userevent;
+
+    /* In this example, our callback pushes a function
+    into the queue, and causes our callback to be called again at the
+    same interval: */
+
+    userevent.type = SDL_USEREVENT;
+    userevent.code = 0;
+    userevent.data1 = NULL;
+    userevent.data2 = param;
+
+    event.type = SDL_USEREVENT;
+    event.user = userevent;
+
+    SDL_PushEvent(&event);
+    return(interval);
+}
+
 int main(int argc, char* args[])
 {
     SDL_Window* window = NULL;
@@ -59,15 +80,34 @@ int main(int argc, char* args[])
     interop.height = SCREEN_SIZE;
     
     RENDERER = loadRenderer(LIBRARY);
-        fprintf(stderr, "AB123D %p\n", RENDERER);
 
+    Uint32 delay = (33 / 10) * 10;  /* To round it down to the nearest 10 ms */
+    SDL_TimerID my_timer_id = SDL_AddTimer(delay, my_callbackfunc, NULL);
+    
+
+    SDL_Event event;
     while(RENDERER(&interop))
     {
-        SDL_UpdateWindowSurface(window);
-        RENDERER = loadRenderer(LIBRARY);
+        while( SDL_PollEvent( &event ) ){
+            switch( event.type ){
+                case SDL_KEYDOWN:
+                    printf( "Key press detected\n" );
+                    break;
+
+                case SDL_KEYUP:
+                    printf( "Key release detected\n" );
+                    break;
+
+                default:
+                    SDL_UpdateWindowSurface(window);
+                    RENDERER = loadRenderer(LIBRARY);
+                    break;
+            }
+        }
     }
 
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
 }
+

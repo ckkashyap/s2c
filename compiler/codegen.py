@@ -1,3 +1,4 @@
+import os
 from . import ast as A
 from . import parse as P
 from . import symbol as S
@@ -180,7 +181,8 @@ def codeGenerate(ast):
 
     code = code2string(code)
 
-    with open("compiler/runtime/runtime.c") as f: rt = f.read()
+    runtimeFile = os.path.dirname(__file__) + '\\runtime\\runtime.c'
+    with open(runtimeFile) as f: rt = f.read()
     nrt = str.replace(rt, "//__SCHEME_CODE__", code);
 
     return x + y + nrt
