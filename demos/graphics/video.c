@@ -19,8 +19,12 @@ RENDERER_TYPE RENDERER;
 #ifdef _OS_IS_WINDOWS_
 #include "windows/loader.c"
 #undef main
-#else
-#include "posix/loader.c"
+#endif
+#ifdef _OS_IS_OSX_
+#include "osx/loader.c"
+#endif
+#ifdef _OS_IS_LINUX_
+#include "linux/loader.c"
 #endif
 
 Uint32 timerFunc(Uint32 interval, void *param)
