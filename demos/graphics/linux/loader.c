@@ -10,9 +10,9 @@ void *DL_LOADER_HANDLE = NULL;
 RENDERER_TYPE loadRenderer()
 {
     struct stat s;
-    lstat(LIBRARY, &s);
 
     system("make render.dll");
+    lstat(LIBRARY, &s);
 
     if (ts.tv_nsec != s.st_mtim.tv_nsec)
     {
