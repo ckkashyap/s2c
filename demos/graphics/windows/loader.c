@@ -11,7 +11,7 @@ BOOL hasFileChanged()
     SYSTEMTIME tempTime;
     DWORD dwRet;
 
-    HANDLE hFile = CreateFile("_render.dll", GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    HANDLE hFile = CreateFile("../render.scm", GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 
     // Retrieve the file times for the file.
     if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
@@ -43,6 +43,7 @@ RENDERER_TYPE loadRenderer()
 {
     if (hasFileChanged())
     {
+        system("rebuild.bat");
         if (DL_LOADER_HANDLE != NULL || FIRSTCALL)
         {
             FreeLibrary(DL_LOADER_HANDLE);
