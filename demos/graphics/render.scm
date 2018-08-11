@@ -46,7 +46,7 @@
 (draw-square (+ (* n 4) (+ (* 1 m) (+ start 20))) (+ (* n 8) (+ (+ start 20) (* 1 5))) 100 0 0 255)))))
 
 
-(do-times 7 (lambda (n)
+(do-times 5 (lambda (n)
               (g n)
               ))
 1

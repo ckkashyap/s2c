@@ -10,7 +10,7 @@ void *DL_LOADER_HANDLE = NULL;
 RENDERER_TYPE loadRenderer()
 {
     struct stat s;
-    lstat(library, &s);
+    lstat(LIBRARY, &s);
 
     if (ts.tv_nsec != s.st_mtimespec.tv_nsec)
     {

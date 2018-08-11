@@ -17,15 +17,13 @@ typedef int (*RENDERER_TYPE)(INTEROP*);
 RENDERER_TYPE RENDERER;
 
 #ifdef _OS_IS_WINDOWS_
-#define LIBRARY "render.dll"
 #include "windows/loader.c"
 #undef main
 #else
-#define LIBRARY "render.dylib"
 #include "posix/loader.c"
 #endif
 
-Uint32 my_callbackfunc(Uint32 interval, void *param)
+Uint32 timerFunc(Uint32 interval, void *param)
 {
     SDL_Event event;
     SDL_UserEvent userevent;
@@ -59,7 +57,7 @@ int main(int argc, char* args[])
 
     window = SDL_CreateWindow
         (
-            "hello sdl2 video",
+            "Graphics Demo",
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
             SCREEN_SIZE, SCREEN_SIZE,
             SDL_WINDOW_SHOWN
@@ -71,7 +69,6 @@ int main(int argc, char* args[])
         return 1;
     }
 
-
     surface = SDL_GetWindowSurface(window);
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0xFF, 0x00, 0x00, 0x00));
     INTEROP interop;
@@ -79,28 +76,32 @@ int main(int argc, char* args[])
     interop.width = SCREEN_SIZE;
     interop.height = SCREEN_SIZE;
     
-    RENDERER = loadRenderer(LIBRARY);
+    RENDERER = loadRenderer();
 
     Uint32 delay = (33 / 10) * 10;  /* To round it down to the nearest 10 ms */
-    SDL_TimerID my_timer_id = SDL_AddTimer(delay, my_callbackfunc, NULL);
+    SDL_TimerID my_timer_id = SDL_AddTimer(delay, timerFunc, NULL);
     
-
     SDL_Event event;
     while(RENDERER(&interop))
     {
-        while( SDL_PollEvent( &event ) ){
-            switch( event.type ){
-                case SDL_KEYDOWN:
-                    printf( "Key press detected\n" );
+        while( SDL_PollEvent( &event ) )
+        {
+            switch( event.type )
+            {
+                case SDL_WINDOWEVENT:
+                    switch (event.window.event)
+                    {
+                        case SDL_WINDOWEVENT_CLOSE:
+                            SDL_DestroyWindow(window);
+                            SDL_Quit();
+                            return 0;
+                        default:
+                            break;
+                    }
                     break;
-
-                case SDL_KEYUP:
-                    printf( "Key release detected\n" );
-                    break;
-
-                default:
+                case SDL_USEREVENT:
                     SDL_UpdateWindowSurface(window);
-                    RENDERER = loadRenderer(LIBRARY);
+                    RENDERER = loadRenderer();
                     break;
             }
         }

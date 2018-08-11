@@ -1,4 +1,4 @@
 all:
 	gcc video.c -o video.exe -lSDL2
 	python3 ../../s2c.py -dll render.scm > render.c
-	gcc -dynamiclib render.c -o render.dylib
+	gcc -dynamiclib render.c -o render.dll

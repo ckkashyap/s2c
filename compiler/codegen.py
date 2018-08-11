@@ -181,7 +181,7 @@ def codeGenerate(ast):
 
     code = code2string(code)
 
-    runtimeFile = os.path.dirname(__file__) + '\\runtime\\runtime.c'
+    runtimeFile = os.path.dirname(__file__) + '/runtime/runtime.c'
     with open(runtimeFile) as f: rt = f.read()
     nrt = str.replace(rt, "//__SCHEME_CODE__", code);
 
