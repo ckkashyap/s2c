@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#define SCREEN_SIZE 200
+#define SCREEN_SIZE 500
 
 typedef struct
 {

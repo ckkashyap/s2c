@@ -16,26 +16,30 @@
     (if (= i 1) (f 0) (let () (f (- i 1)) (do-times (- i 1) f)))))
 
 (define foreach-pixel
-  (lambda (f)
-    (do-times height
+  (lambda (h w f)
+    (do-times h
               (lambda (r)
-                (do-times width
+                (do-times w
                           (lambda (c) (f c r)))))))
 
 
-(foreach-pixel (lambda (r c) (pset r c 100 100 255)))
+(foreach-pixel width height (lambda (r c) (pset r c 0 0 255)))
 
 (define draw-square
-  (lambda (x y s r g b)
+  (lambda (y x s r g b)
     (do-times s (lambda (n) (pset (+ x n) y r g b)))
     (do-times s (lambda (n) (pset x (+ y n) r g b)))
     (do-times s (lambda (n) (pset (+ x s) (+ y n) r g b)))
     (do-times s (lambda (n) (pset (+ x n) (+ y s) r g b)))
+    (pset (+ x s) (+ y s) r g b)
     ))
 
+(foreach-pixel 10 10
+               (lambda (r c)
+                 (draw-square (+ 10 (* r 50)) (+ 0 (* c 50)) 5 255 255 0)
+                 (draw-square (+ 10 (* r 50)) (+ 10 (* c 50)) 5 0 255 0)
+                 (draw-square (* r 50) (+ 10 (* c 50)) 5 255 0 0)
+                 (draw-square (* r 50) (* c 50) 5 255 255 255)))
 
-(do-times 18 
-          (lambda (n)
-            (draw-square (* n 10) (* n 10) 25 255 255 255)))
 
 1
