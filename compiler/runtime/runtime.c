@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HEAP_SIZE 1000000
+#define HEAP_SIZE 10000000000
 
 typedef unsigned char BYTE8;
 typedef unsigned short BYTE16;
@@ -64,7 +64,7 @@ obj heap[HEAP_SIZE];
 #define BEGIN_JUMP(nbargs) sp = stack;
 #define END_JUMP(nbargs) pc = OBJ2PTR(LOCAL(0))[0]; goto jump;
 
-obj *gc (obj *sp) { exit (1); } /* no GC! */
+obj *gc (obj *sp) { printf("RAN OUT OF HEAP\n"); exit (1); } /* no GC! */
 
 #ifndef __STANDALONE_EXE__
 #ifdef _OS_IS_WINDOWS_

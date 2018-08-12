@@ -25,7 +25,16 @@
 
 (define do-times
   (lambda (i f)
-    (if (= i 1) (f 1) (let () (f i) (do-times (- i 1) f)))))
+    (if (= i 0) (f 0) (let () (f (- i 1)) (do-times (- i 1) f)))))
+
+(define foreach-pixel
+  (lambda (f)
+    (do-times height (lambda (r)
+                       
+                       (do-times width (lambda (c)
+
+                       (f c r)))))))
+
 
 (define draw-square
   (lambda (x y s r g b)
@@ -37,7 +46,11 @@
 
 (setzeroall (- (* 4 (* width height)) 1))
 
-(define start 10)
+(foreach-pixel (lambda (r c) (pset r c 100 10 100)))
+
+(pset 100 799 0 0 255)
+
+(define start 20)
 (define g (lambda (m)
 (do-times 30
           (lambda (n)

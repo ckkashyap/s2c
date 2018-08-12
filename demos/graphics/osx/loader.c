@@ -12,7 +12,7 @@ RENDERER_TYPE loadRenderer()
     struct stat s;
     lstat(LIBRARY, &s);
 
-    system("make render.dll");
+    system("make -s render.dll");
 
     if (ts.tv_nsec != s.st_mtimespec.tv_nsec)
     {
