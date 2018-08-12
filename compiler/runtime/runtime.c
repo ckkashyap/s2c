@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HEAP_SIZE 10000000000
+#define HEAP_SIZE 1000000000
 
 typedef unsigned char BYTE8;
 typedef unsigned short BYTE16;
@@ -12,7 +12,8 @@ void *INPUT;
 
 obj global[NB_GLOBALS];
 obj stack[MAX_STACK];
-obj heap[HEAP_SIZE];
+// obj heap[HEAP_SIZE];
+obj *heap;
 
 #define INT2OBJ(n) n
 #define OBJ2INT(o) o
@@ -75,6 +76,7 @@ obj execute (void *input)
 {
   int pc = 0;
   obj *sp = stack;
+  heap = malloc(HEAP_SIZE*sizeof(obj));
   obj *hp = &heap[HEAP_SIZE];
   INPUT = input;
 
@@ -82,6 +84,7 @@ obj execute (void *input)
 
 //__SCHEME_CODE__
   }
+  free(heap);
   return POP();
 }
 
