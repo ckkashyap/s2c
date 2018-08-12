@@ -11,7 +11,7 @@ RENDERER_TYPE loadRenderer()
 {
     struct stat s;
 
-    system("make render.dll");
+    system("make -s render.dll");
     lstat(LIBRARY, &s);
 
     if (ts.tv_nsec != s.st_mtim.tv_nsec)
@@ -27,7 +27,6 @@ RENDERER_TYPE loadRenderer()
 	printf("DL_LOADER_HANDLE = %p\n", DL_LOADER_HANDLE);
         RENDERER = dlsym(DL_LOADER_HANDLE, "execute");
     }
-    printf("RETURNING %p\n", RENDERER);
 
     return RENDERER;
 }
