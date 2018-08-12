@@ -55,7 +55,7 @@ obj *heap;
 
 #define SUB() { obj y = POP(); TOS() = TOS() - y; }
 #define MUL() { obj y = POP(); TOS() = INT2OBJ(OBJ2INT(TOS()) * OBJ2INT(y)); }
-#define DISPLAY() printf ("%lld", OBJ2INT(TOS()))
+#define DISPLAY() printf ("%lld\n", OBJ2INT(TOS()))
 #define HALT() break
 
 #define BEGIN_CLOSURE(label,nbfree) if (hp-(nbfree+1) < heap) hp = gc (sp);

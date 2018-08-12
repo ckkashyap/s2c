@@ -3,18 +3,6 @@
 (define height (peek32 data 1))
 (define buffer (peekptr data 1))
 
-
-(define setzeroall
-  (lambda (n)
-    (if (= n  3)
-        (poke8 buffer n 0)
-      (let ()
-        (poke8 buffer (- n 0) 0)
-        (poke8 buffer (- n 1) 0)
-        (poke8 buffer (- n 2) 0)
-        (poke8 buffer (- n 3) 0)
-        (setzeroall (- n 4))))))
-
 (define pset
   (lambda (x y r g b)
     (let ((offset (+ (* 4 (* y width)) (* x 4))))
@@ -25,16 +13,17 @@
 
 (define do-times
   (lambda (i f)
-    (if (= i 0) (f 0) (let () (f (- i 1)) (do-times (- i 1) f)))))
+    (if (= i 1) (f 0) (let () (f (- i 1)) (do-times (- i 1) f)))))
 
 (define foreach-pixel
   (lambda (f)
-    (do-times height (lambda (r)
-                       
-                       (do-times width (lambda (c)
+    (do-times height
+              (lambda (r)
+                (do-times width
+                          (lambda (c) (f c r)))))))
 
-                       (f c r)))))))
 
+(foreach-pixel (lambda (r c) (pset r c 100 100 255)))
 
 (define draw-square
   (lambda (x y s r g b)
@@ -44,22 +33,9 @@
     (do-times s (lambda (n) (pset (+ x n) (+ y s) r g b)))
     ))
 
-(setzeroall (- (* 4 (* width height)) 1))
 
-(foreach-pixel (lambda (r c) (pset r c 100 10 100)))
-
-(pset 100 799 0 0 255)
-
-(define start 20)
-(define g (lambda (m)
-(do-times 30
+(do-times 18 
           (lambda (n)
-(draw-square (+ (* n 4) (+ (* 1 m) (+ start 0))) (+ (* n 8) (+ (+ start 0) (* 1 5))) 100 255 0 0)
-(draw-square (+ (* n 4) (+ (* 1 m) (+ start 10))) (+ (* n 8) (+ (+ start 10) (* 1 5))) 100 0 255 0)
-(draw-square (+ (* n 4) (+ (* 1 m) (+ start 20))) (+ (* n 8) (+ (+ start 20) (* 1 5))) 100 0 0 255)))))
+            (draw-square (* n 10) (* n 10) 25 255 255 255)))
 
-
-(do-times 5 (lambda (n)
-              (g n)
-              ))
 1
