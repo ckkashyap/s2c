@@ -41,9 +41,9 @@ def cg(sv, ast):
         val = A.litVal(ast)
         if (type(val) == type(True)):
             if val:
-                return [" PUSH(INT2OBJ(TRUEOBJ));"]
+                return [" PUSH(TRUEOBJ);"]
             else:
-                return [" PUSH(INT2OBJ(FALSEOBJ));"]
+                return [" PUSH(FALSEOBJ);"]
         return [" PUSH(INT2OBJ(", val, "));"]
  
     if A.isRef(ast):

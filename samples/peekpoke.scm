@@ -46,9 +46,12 @@
 
 
 (define b2 (new-buffer 8))
-(pokeptr b2 0 b2)
-(define v6 (if (eq-ptr b2 (peekptr b2 0)) 1 0))
+(pokeptr b2 0 1)
+(pokeptr b2 1 2)
+(print-buffer b2 16)
+(define v6 (if (eq-ptr 1 (peekptr b2 0)) 1 0))
+(define v7 (if (eq-ptr 2 (peekptr b2 1)) 1 0))
 
-(define result (+ v1 (+ v2 (+ v3 (+ v4 (+ v5 v6))))))
+(define result (+ v1 (+ v2 (+ v3 (+ v4 (+ v5 (+ v6 v7)))))))
 
-(if (= result 6) 100 0)
+(if (= result 7) 100 0)
