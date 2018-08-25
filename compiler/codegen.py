@@ -56,7 +56,7 @@ def cg(sv, ast):
  
     if A.isCnd(ast):
         x = [cg(sv, i) for i in A.astSubx(ast)]
-        return [x[0], "\n if (POP()) {\n", x[1], "\n } else {\n", A.astSubx(x), "\n }"]
+        return [x[0], "\n if (OBJ2INT(POP())) {\n", x[1], "\n } else {\n", A.astSubx(x), "\n }"]
  
     if A.isPrim(ast):
         args = A.astSubx(ast)

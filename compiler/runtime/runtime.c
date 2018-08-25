@@ -1,13 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HEAP_SIZE 1000000000
+#define HEAP_SIZE 100000000
 
 typedef unsigned char BYTE8;
 typedef unsigned short BYTE16;
 typedef unsigned int BYTE32;
 typedef unsigned long long BYTE64;
-typedef long long obj;
+// typedef long long obj;
+
+typedef struct
+{
+    BYTE64 o;
+} obj;
+
+
 void *INPUT;
 
 obj global[NB_GLOBALS];
@@ -15,27 +22,52 @@ obj stack[MAX_STACK];
 // obj heap[HEAP_SIZE];
 obj *heap;
 
-#define INT2OBJ(n) n
-#define OBJ2INT(o) o
+obj INT2OBJ(BYTE64 i)
+{
+    obj o;
+    o.o = i;
+    return o;
+}
 
-#define PTR2OBJ(p) ((obj)p)
-#define OBJ2PTR(o) ((obj*)o)
+BYTE64 OBJ2INT(obj o)
+{
+    return o.o;
+}
+
+obj PTR2OBJ(void *p)
+{
+    obj o;
+    o.o = (BYTE64)p;
+    return o;
+}
+
+void *OBJ2PTR(obj o)
+{
+    return (void *)o.o;
+}
+
+
+//#define INT2OBJ(n) n
+//#define OBJ2INT(o) o
+
+//#define PTR2OBJ(p) ((obj)p)
+//#define OBJ2PTR(o) ((obj*)o)
 
 #define FALSEOBJ INT2OBJ(0)
 #define TRUEOBJ INT2OBJ(1)
 
 #define GLOBAL(i) global[i]
 #define LOCAL(i) stack[i]
-#define CLOSURE_REF(self,i) OBJ2PTR(self)[i]
+#define CLOSURE_REF(self,i) ((obj *)OBJ2PTR(self))[i]
 
 #define TOS() sp[-1]
 #define PUSH(x) *sp++ = x
 #define POP() *--sp
 
-#define EQ() { obj y = POP(); TOS() = INT2OBJ(TOS() == y); }
+#define EQ() { obj o1 = POP(); obj o2 = POP(); BYTE64 v1 = o1.o; BYTE64 v2 = o2.o; obj result; result.o = v1 == v2; PUSH(result); }
 #define EQPTR() { obj* p = OBJ2PTR(POP()); TOS() = INT2OBJ(OBJ2PTR(TOS()) == p); }
 #define LT() { obj y = POP(); TOS() = INT2OBJ(TOS() < y); }
-#define ADD() { obj y = POP(); TOS() = TOS() + y; }
+#define ADD() { obj o1 = POP(); obj o2 = POP(); BYTE64 v1 = o1.o; BYTE64 v2 = o2.o; obj result; result.o = v1 + v2; PUSH(result); }
 #define ADD3() { obj y = POP(); obj z = POP(); TOS() = TOS() + y + z; }
 
 #define NEWBUFFER() { long long size = OBJ2INT(TOS());  void *p = malloc(size); TOS() = PTR2OBJ(p); }
@@ -53,17 +85,17 @@ obj *heap;
 #define POKE64() { obj val = OBJ2INT(POP()); obj idx = OBJ2INT(POP()); BYTE64 *buf = (BYTE64*)OBJ2PTR(TOS()); buf[idx] = (BYTE64)val; TOS() = INT2OBJ(val); }
 #define POKEPTR() { obj *val = OBJ2PTR(POP()); obj idx = OBJ2INT(POP()); obj *buf = OBJ2PTR(TOS()); buf[idx] = (obj)val; TOS() = PTR2OBJ(val); }
 
-#define SUB() { obj y = POP(); TOS() = TOS() - y; }
+#define SUB() { obj o1 = POP(); obj o2 = POP(); BYTE64 v1 = o1.o; BYTE64 v2 = o2.o; obj result; result.o = v2 - v1; PUSH(result); }
 #define MUL() { obj y = POP(); TOS() = INT2OBJ(OBJ2INT(TOS()) * OBJ2INT(y)); }
 #define DISPLAY() printf ("%lld\n", OBJ2INT(TOS()))
 #define HALT() break
 
 #define BEGIN_CLOSURE(label,nbfree) if (hp-(nbfree+1) < heap) hp = gc (sp);
 #define INICLO(i) *--hp = POP()
-#define END_CLOSURE(label,nbfree) *--hp = label; PUSH(PTR2OBJ(hp));
+#define END_CLOSURE(label,nbfree) *--hp = INT2OBJ(label); PUSH(PTR2OBJ(hp));
 
 #define BEGIN_JUMP(nbargs) sp = stack;
-#define END_JUMP(nbargs) pc = OBJ2PTR(LOCAL(0))[0]; goto jump;
+#define END_JUMP(nbargs) pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]); goto jump;
 
 obj *gc (obj *sp) { printf("RAN OUT OF HEAP\n"); exit (1); } /* no GC! */
 
