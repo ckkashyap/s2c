@@ -128,7 +128,7 @@ def cg(sv, ast):
                     interval(1, n),
                     sv,
                     "\n",
-                    lambda code, newSv: [code, " BEGIN_JUMP(", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(", n, ");"])
+                    lambda code, newSv: [code, " BEGIN_JUMP(", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(&pc, ", n, ");goto jump;"])
  
     print("Cannot handle this AST node")
     exit()

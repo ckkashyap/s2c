@@ -95,7 +95,12 @@ void *OBJ2PTR(obj o)
 #define END_CLOSURE(label,nbfree) *--hp = INT2OBJ(label); PUSH(PTR2OBJ(hp));
 
 #define BEGIN_JUMP(nbargs) sp = stack;
-#define END_JUMP(nbargs) pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]); goto jump;
+
+// #define END_JUMP(nbargs) pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]); goto jump;
+void END_JUMP(int *pc, int nbargs)
+{
+    *pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]);
+}
 
 obj *gc (obj *sp) { printf("RAN OUT OF HEAP\n"); exit (1); } /* no GC! */
 
