@@ -4,4 +4,4 @@
 
 (define p (pair 10 20))
 
-(second p)
+(if (and (= 10 (first p)) (= 20 (second p))) 100 0)

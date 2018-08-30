@@ -1,3 +1,4 @@
+import os
 from . import ast as A
 from . import parse as P
 from . import symbol as S
@@ -60,6 +61,8 @@ def cg(sv, ast):
     if A.isPrim(ast):
         args = A.astSubx(ast)
         op =A.primOp(ast)
+        if op == "%eq-ptr":
+            return [cgArgs(args, sv), " EQPTR();"]
         if op == "%=":
             return [cgArgs(args, sv), " EQ();"]
         if op == "%<":
@@ -68,10 +71,32 @@ def cg(sv, ast):
             return [cgArgs(args, sv), " ADD();"]
         if op == "%+3":
             return [cgArgs(args, sv), " ADD3();"]
-        if op == "%new-vec":
-            return [cgArgs(args, sv), " NEWVEC();"]
-        if op == "%print-vec":
-            return [cgArgs(args, sv), " PRINTVEC();"]
+        if op == "%new-buffer":
+            return [cgArgs(args, sv), " NEWBUFFER();"]
+        if op == "%print-buffer":
+            return [cgArgs(args, sv), " PRINTBUFFER();"]
+        if op == "%get-input-buffer":
+            return [cgArgs(args, sv), " GETINPUTBUFFER();"]
+        if op == "%peek8":
+            return [cgArgs(args, sv), " PEEK8();"]
+        if op == "%peek16":
+            return [cgArgs(args, sv), " PEEK16();"]
+        if op == "%peek32":
+            return [cgArgs(args, sv), " PEEK32();"]
+        if op == "%peek64":
+            return [cgArgs(args, sv), " PEEK64();"]
+        if op == "%peekptr":
+            return [cgArgs(args, sv), " PEEKPTR();"]
+        if op == "%poke8":
+            return [cgArgs(args, sv), " POKE8();"]
+        if op == "%poke16":
+            return [cgArgs(args, sv), " POKE16();"]
+        if op == "%poke32":
+            return [cgArgs(args, sv), " POKE32();"]
+        if op == "%poke64":
+            return [cgArgs(args, sv), " POKE64();"]
+        if op == "%pokeptr":
+            return [cgArgs(args, sv), " POKEPTR();"]
         if op == "%-":
             return [cgArgs(args, sv), " SUB();"]
         if op == "%*":
@@ -156,7 +181,8 @@ def codeGenerate(ast):
 
     code = code2string(code)
 
-    with open("compiler/runtime/runtime.c") as f: rt = f.read()
+    runtimeFile = os.path.dirname(__file__) + '/runtime/runtime.c'
+    with open(runtimeFile) as f: rt = f.read()
     nrt = str.replace(rt, "//__SCHEME_CODE__", code);
 
     return x + y + nrt
