@@ -35,3 +35,8 @@ Another "problem" with Marc's implementation is that it is in scheme. What I mea
 ## Why Python?
 
 This is my second attempt at such a translation. My [first attempt](https://github.com/ckkashyap/scheme-to-c-compiler) was in Clojure. I switched it to Python because not everyone was excited when I told them that they need to install java to try out my compiler :( Python is a good alternative given its general acceptance in the industry and [semantic similarity](http://www.paulgraham.com/lispfaq1.html) with lisp/scheme.
+
+## Acknoledgements
+
+### [Justin Ethier](https://github.com/justinethier/cyclone) 
+
