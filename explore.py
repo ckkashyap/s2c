@@ -6,6 +6,7 @@ from compiler import debug
 from compiler import string2ast
 from compiler import symbol
 import itertools
+import sys
 
 def py2clj(s):
     s1 = str.replace(str(s), '[', '(')
@@ -56,6 +57,9 @@ def scheme2html(s):
     return str.join('', output)
 
 
+
+
+
 schemes = [
         '''10''',
         '''
@@ -70,16 +74,22 @@ schemes = [
         (func 20)'''
         ]
 
+schemes=[1]
 with open('report.html', 'w') as report:
     report.write(f'<html>{css}<body>')
     for s in schemes:
+        
+        ss = ""
+        with open(sys.argv[1]) as f:
+            ss = f.read()
+            pass
         symbol.varNumber = 0
-        a = string2ast.parse(s)
+        a = string2ast.parse(ss)
         b = cpsconvert.cpsConvert(a)
         c = clconvert.closureConvert(b)
         code = codegen.codeGenerateDebug(c)
 
-        report.write(s)
+        report.write(ss)
         report.write('<div class="row">')
         report.write('<div class="col">')
         report.write(scheme2html(py2clj(debug.source(b))))
