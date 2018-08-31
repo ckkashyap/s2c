@@ -90,11 +90,38 @@ void *OBJ2PTR(obj o)
 #define DISPLAY() printf ("%lld\n", OBJ2INT(TOS()))
 #define HALT() break
 
-#define BEGIN_CLOSURE(label,nbfree) if (hp-(nbfree+1) < heap) hp = gc (sp);
-#define INICLO(i) *--hp = POP()
-#define END_CLOSURE(label,nbfree) *--hp = INT2OBJ(label); PUSH(PTR2OBJ(hp));
+obj *gc (obj *sp) { printf("RAN OUT OF HEAP\n"); exit (1); } /* no GC! */
 
-#define BEGIN_JUMP(nbargs) sp = stack;
+// #define BEGIN_CLOSURE(label,nbfree) if (hp-(nbfree+1) < heap) hp = gc (sp);
+void BEGIN_CLOSURE(obj **hp, obj **sp, int label, int nbfree)
+{
+    if ((*hp)-(nbfree+1) < heap) *hp = gc (*sp);
+}
+
+// #define INICLO(i) *--hp = POP()
+void INICLO(obj **hpp, obj **spp, int i)
+{
+    (*spp)--;
+    (*hpp)--;
+    **hpp = **spp;
+}
+
+
+// #define END_CLOSURE(a, b, label,nbfree) *--hp = INT2OBJ(label); PUSH(PTR2OBJ(hp));
+void END_CLOSURE(obj **hpp, obj **spp, int label, int nbfree)
+{
+    (*hpp)--;
+    **hpp = INT2OBJ(label);
+
+    **spp = PTR2OBJ(*hpp);
+    (*spp)++;
+}
+
+//#define BEGIN_JUMP(nbargs) sp = stack;
+void BEGIN_JUMP(obj **sp, int nbargs)
+{
+    *sp = stack;
+}
 
 // #define END_JUMP(nbargs) pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]); goto jump;
 void END_JUMP(int *pc, int nbargs)
@@ -102,7 +129,6 @@ void END_JUMP(int *pc, int nbargs)
     *pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]);
 }
 
-obj *gc (obj *sp) { printf("RAN OUT OF HEAP\n"); exit (1); } /* no GC! */
 
 #ifndef __STANDALONE_EXE__
 #ifdef _OS_IS_WINDOWS_

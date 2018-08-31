@@ -108,8 +108,8 @@ def cg(sv, ast):
         if op == "%closure":
             i = addLambda(args[0])
             n = len(args) - 1
-            s = ["CLOSURE(", i, ",", n, ");"]
-            return [cgArgs(args[1:], sv), " BEGIN_", s, [[" INICLO(", i, ");"] for i in reversed(interval(1,n))], " END_", s]
+            s = ["CLOSURE(&hp, &sp,", i, ",", n, ");"]
+            return [cgArgs(args[1:], sv), " BEGIN_", s, [[" INICLO(&hp, &sp, ", i, ");"] for i in reversed(interval(1,n))], " END_", s]
         if op == "%closure-ref":
             i = A.litVal(args[1])
             return [cg(sv, args[0]), " TOS() = CLOSURE_REF(TOS(),", i, ");"]
@@ -128,7 +128,7 @@ def cg(sv, ast):
                     interval(1, n),
                     sv,
                     "\n",
-                    lambda code, newSv: [code, " BEGIN_JUMP(", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(&pc, ", n, ");goto jump;"])
+                    lambda code, newSv: [code, " BEGIN_JUMP(&sp, ", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(&pc, ", n, ");goto jump;"])
  
     print("Cannot handle this AST node")
     exit()
