@@ -9,9 +9,17 @@ typedef unsigned int BYTE32;
 typedef unsigned long long BYTE64;
 // typedef long long obj;
 
+typedef enum
+{
+    INT,
+    CLOSURE,
+    POINTER,
+} OBJ_TYPE;
+
 typedef struct
 {
     BYTE64 o;
+    OBJ_TYPE type;
 } obj;
 
 
@@ -26,6 +34,15 @@ obj INT2OBJ(BYTE64 i)
 {
     obj o;
     o.o = i;
+    o.type = INT;
+    return o;
+}
+
+obj CLOSURE2OBJ(BYTE64 i)
+{
+    obj o;
+    o.o = i;
+    o.type = CLOSURE;
     return o;
 }
 
@@ -34,10 +51,16 @@ BYTE64 OBJ2INT(obj o)
     return o.o;
 }
 
+BYTE64 OBJ2CLOSURE(obj o)
+{
+    return o.o;
+}
+
 obj PTR2OBJ(void *p)
 {
     obj o;
     o.o = (BYTE64)p;
+    o.type = POINTER;
     return o;
 }
 
@@ -111,7 +134,7 @@ void INICLO(obj **hpp, obj **spp, int i)
 void END_CLOSURE(obj **hpp, obj **spp, int label, int nbfree)
 {
     (*hpp)--;
-    **hpp = INT2OBJ(label);
+    **hpp = CLOSURE2OBJ(label);
 
     **spp = PTR2OBJ(*hpp);
     (*spp)++;
@@ -123,10 +146,24 @@ void BEGIN_JUMP(obj **sp, int nbargs)
     *sp = stack;
 }
 
+
+void printHeap()
+{
+}
+
+void beforeJump(obj *hp, obj *sp)
+{
+
+}
+
+void newCase(obj *hp, obj *sp)
+{
+}
+
 // #define END_JUMP(nbargs) pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]); goto jump;
 void END_JUMP(int *pc, int nbargs)
 {
-    *pc = OBJ2INT(((obj *)OBJ2PTR(LOCAL(0)))[0]);
+    *pc = OBJ2CLOSURE(((obj *)OBJ2PTR(LOCAL(0)))[0]);
 }
 
 

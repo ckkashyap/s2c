@@ -128,7 +128,7 @@ def cg(sv, ast):
                     interval(1, n),
                     sv,
                     "\n",
-                    lambda code, newSv: [code, " BEGIN_JUMP(&sp, ", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(&pc, ", n, ");goto jump;"])
+                    lambda code, newSv: [code, " beforeJump(hp, sp); BEGIN_JUMP(&sp, ", n, ");", [[" PUSH(LOCAL(", j + len(sv), "));"] for j in interval(0, n - 1)], " END_JUMP(&pc, ", n, ");goto jump;"])
  
     print("Cannot handle this AST node")
     exit()
@@ -169,7 +169,7 @@ def compileAllLambdas():
         ast = x[1:]
         lambdaTodo = lambdaTodo[1:]
         
-        return ["case ", x[0], ":\n", codeGen(A.astSubx(ast)[0], [i for i in reversed(A.lamParams(ast))]), "\n\n", compileAllLambdas()]
+        return ["case ", x[0], ":\n newCase(hp, sp);\n", codeGen(A.astSubx(ast)[0], [i for i in reversed(A.lamParams(ast))]), "\n\n", compileAllLambdas()]
 
 def codeGenerate(ast):
     global globalVars
