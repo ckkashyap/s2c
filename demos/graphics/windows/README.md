@@ -1,6 +1,6 @@
 # Running the demo on windows
 
-The instructions below assume that you have the 64 bit Microsoft C compiler and python3 set
+The instructions below assume that you have the 64 bit Microsoft C compiler and python set
 in your path. You can do this by running "vcvarsall.bat x64" on the command
 line.
 
